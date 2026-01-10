@@ -95,5 +95,12 @@ def run() -> None:
 
                 print("Review session complete.\n")
 
+            elif choice == "5":
+                deck = _prompt("Deck (blank=all): ")
+                s = engine.stats(deck=deck or None)
+                print(f"\nTotal cards: {s['total_cards']}")
+                print(f"Due today : {s['due_today']}")
+                print(f"Decks     : {s['decks']}\n")
+
         except Exception as e:
             print(f"Error: {e}\n")

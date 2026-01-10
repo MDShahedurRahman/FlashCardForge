@@ -73,3 +73,14 @@ class FlashcardEngine:
             raise KeyError("Card not found.")
         day = today or today_iso()
         return update_card(card, Grade(grade), day)
+
+    def stats(self, deck: Optional[str] = None, on_day: Optional[str] = None) -> Dict:
+        day = on_day or today_iso()
+        cards = [c for c in self.lib.cards.values() if (
+            not deck or c.deck.lower() == deck.lower())]
+        due = [c for c in cards if is_due(c, day)]
+        return {
+            "total_cards": len(cards),
+            "due_today": len(due),
+            "decks": len({c.deck for c in self.lib.cards.values()}),
+        }

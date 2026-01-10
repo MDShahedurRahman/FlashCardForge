@@ -112,5 +112,12 @@ def run() -> None:
                 added = import_csv(engine, inp)
                 print(f"Imported {added} card(s).\n")
 
+            elif choice == "8":
+                store.save(engine)
+                print("Saved.\n")
+
+            else:
+                print("Invalid option.\n")
+
         except Exception as e:
             print(f"Error: {e}\n")

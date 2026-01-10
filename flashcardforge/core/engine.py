@@ -26,3 +26,25 @@ class FlashcardEngine:
 
     def delete_card(self, card_id: str) -> bool:
         return self.lib.cards.pop(card_id, None) is not None
+
+    def edit_card(self, card_id: str, front: Optional[str] = None, back: Optional[str] = None, deck: Optional[str] = None) -> Card:
+        card = self.lib.cards.get(card_id)
+        if card is None:
+            raise KeyError("Card not found.")
+
+        if front is not None:
+            f = front.strip()
+            if not f:
+                raise ValueError("Front cannot be empty.")
+            card.front = f
+        if back is not None:
+            b = back.strip()
+            if not b:
+                raise ValueError("Back cannot be empty.")
+            card.back = b
+        if deck is not None:
+            d = deck.strip()
+            if not d:
+                raise ValueError("Deck cannot be empty.")
+            card.deck = d
+        return card

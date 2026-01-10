@@ -102,5 +102,10 @@ def run() -> None:
                 print(f"Due today : {s['due_today']}")
                 print(f"Decks     : {s['decks']}\n")
 
+            elif choice == "6":
+                out = Path(_prompt("CSV output path: ")).expanduser().resolve()
+                export_csv(engine, out)
+                print(f"Exported to {out}\n")
+
         except Exception as e:
             print(f"Error: {e}\n")

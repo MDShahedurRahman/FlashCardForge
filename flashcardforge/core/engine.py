@@ -84,3 +84,40 @@ class FlashcardEngine:
             "due_today": len(due),
             "decks": len({c.deck for c in self.lib.cards.values()}),
         }
+
+    # persistence helpers
+    def to_dict(self) -> Dict:
+        return {
+            "cards": [
+                {
+                    "id": c.id,
+                    "front": c.front,
+                    "back": c.back,
+                    "deck": c.deck,
+                    "due": c.due,
+                    "interval": c.interval,
+                    "repetitions": c.repetitions,
+                    "ease": c.ease,
+                    "created_on": c.created_on,
+                }
+                for c in self.lib.list_cards()
+            ]
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict) -> "FlashcardEngine":
+        lib = Library()
+        for item in data.get("cards", []):
+            c = Card(
+                id=item["id"],
+                front=item["front"],
+                back=item["back"],
+                deck=item["deck"],
+                due=item.get("due") or item.get("created_on"),
+                interval=int(item.get("interval", 0)),
+                repetitions=int(item.get("repetitions", 0)),
+                ease=float(item.get("ease", 2.5)),
+                created_on=item.get("created_on") or item.get("due"),
+            )
+            lib.cards[c.id] = c
+        return cls(lib)

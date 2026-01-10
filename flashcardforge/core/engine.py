@@ -48,3 +48,21 @@ class FlashcardEngine:
                 raise ValueError("Deck cannot be empty.")
             card.deck = d
         return card
+
+    def decks(self) -> List[str]:
+        names = sorted({c.deck for c in self.lib.cards.values()},
+                       key=lambda s: s.lower())
+        return names
+
+    def due_cards(self, deck: Optional[str] = None, on_day: Optional[str] = None, limit: int = 20) -> List[Card]:
+        if limit <= 0:
+            raise ValueError("limit must be > 0")
+        day = on_day or today_iso()
+        out = []
+        for c in self.lib.cards.values():
+            if deck and c.deck.lower() != deck.lower():
+                continue
+            if is_due(c, day):
+                out.append(c)
+        out.sort(key=lambda c: (c.due, c.created_on, c.id))
+        return out[:limit]

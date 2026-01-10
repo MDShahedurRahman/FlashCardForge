@@ -42,3 +42,11 @@ class Card:
             back=back,
             deck=deck,
         )
+
+
+@dataclass
+class Library:
+    cards: Dict[str, Card] = field(default_factory=dict)
+
+    def list_cards(self) -> List[Card]:
+        return sorted(self.cards.values(), key=lambda c: (c.deck.lower(), c.due, c.created_on, c.id))

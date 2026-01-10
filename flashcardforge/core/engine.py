@@ -66,3 +66,10 @@ class FlashcardEngine:
                 out.append(c)
         out.sort(key=lambda c: (c.due, c.created_on, c.id))
         return out[:limit]
+
+    def review(self, card_id: str, grade: int, today: Optional[str] = None) -> Card:
+        card = self.lib.cards.get(card_id)
+        if card is None:
+            raise KeyError("Card not found.")
+        day = today or today_iso()
+        return update_card(card, Grade(grade), day)

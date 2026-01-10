@@ -46,3 +46,15 @@ def run() -> None:
                 back = _prompt("Back: ")
                 engine.add_card(front, back, deck)
                 print("Added.\n")
+
+            elif choice == "2":
+                decks = engine.decks()
+                if not decks:
+                    print("No decks yet.\n")
+                else:
+                    for d in decks:
+                        print(f"- {d}")
+                    print()
+
+        except Exception as e:
+            print(f"Error: {e}\n")

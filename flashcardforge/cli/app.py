@@ -56,5 +56,20 @@ def run() -> None:
                         print(f"- {d}")
                     print()
 
+            elif choice == "3":
+                deck = _prompt("Deck (blank=all): ")
+                cards = engine.lib.list_cards()
+                if deck:
+                    cards = [c for c in cards if c.deck.lower() ==
+                             deck.lower()]
+                if not cards:
+                    print("No cards.\n")
+                else:
+                    for c in cards:
+                        print(
+                            f"{c.id} | [{c.deck}] due={c.due} reps={c.repetitions} ease={c.ease:.2f}")
+                        print(f"  Q: {c.front}")
+                        print(f"  A: {c.back}\n")
+
         except Exception as e:
             print(f"Error: {e}\n")

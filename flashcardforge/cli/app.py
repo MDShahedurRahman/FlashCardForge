@@ -71,5 +71,29 @@ def run() -> None:
                         print(f"  Q: {c.front}")
                         print(f"  A: {c.back}\n")
 
+            elif choice == "4":
+                deck = _prompt("Deck (blank=all): ")
+                due = engine.due_cards(deck=deck or None, limit=20)
+                if not due:
+                    print("No due cards. Nice!\n")
+                    continue
+
+                print(
+                    "\nReview grades: 0..5 (5=easy/perfect, 3=hard but correct, <3=incorrect)\n")
+                for c in due:
+                    print(f"[{c.deck}] Q: {c.front}")
+                    _ = _prompt("Press Enter to show answer...")
+                    print(f"A: {c.back}")
+                    g_txt = _prompt("Grade (0-5): ")
+                    try:
+                        g = int(g_txt)
+                    except ValueError:
+                        print("Invalid grade, skipping.\n")
+                        continue
+                    engine.review(c.id, g)
+                    print(f"Next due: {engine.lib.cards[c.id].due}\n")
+
+                print("Review session complete.\n")
+
         except Exception as e:
             print(f"Error: {e}\n")

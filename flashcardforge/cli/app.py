@@ -107,5 +107,10 @@ def run() -> None:
                 export_csv(engine, out)
                 print(f"Exported to {out}\n")
 
+            elif choice == "7":
+                inp = Path(_prompt("CSV input path: ")).expanduser().resolve()
+                added = import_csv(engine, inp)
+                print(f"Imported {added} card(s).\n")
+
         except Exception as e:
             print(f"Error: {e}\n")

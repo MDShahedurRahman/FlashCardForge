@@ -22,3 +22,12 @@ def test_due_cards_limit_and_filter():
 
     with pytest.raises(ValueError):
         e.due_cards(limit=0)
+
+
+def test_review_updates_card():
+    e = FlashcardEngine()
+    c = e.add_card("Q", "A", "Deck")
+    c.due = "2026-01-01"
+
+    e.review(c.id, grade=5, today="2026-01-10")
+    assert e.lib.cards[c.id].due == "2026-01-11"
